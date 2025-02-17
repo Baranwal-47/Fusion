@@ -70,15 +70,16 @@ class CourseRegistrationSerializer(serializers.ModelSerializer):
         model = course_registration
         fields = ('__all__')
 
-class CourseSlotSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CourseSlot
-        fields = ('__all__')
-        
-        
 class CourseSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Course
-        fields = ['id','code','name','credit']
-        
+        fields = ('__all__')
+
+class CourseSlotSerializer(serializers.ModelSerializer):
+    courses = CourseSerializer(read_only=True, many=True)  # Serialize related courses
+    semester = SemesterSerializer(read_only=True) # Serialize related semester
+
+    class Meta:
+        model = CourseSlot
+        fields = ('__all__')
